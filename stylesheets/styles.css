@@ -610,18 +610,98 @@ nav.scrolled {
     background: white;
 }
 
+/* Certificates Section Styles */
+.certificates-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cert-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.cert-scroll-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+}
+
+.cert-scroll-btn i {
+    font-size: 1.2rem;
+}
+
+.left-scroll-cert {
+    left: -25px;
+}
+
+.right-scroll-cert {
+    right: -25px;
+}
+
+/* Hide scroll buttons on mobile for certificates */
+@media screen and (max-width: 768px) {
+    .cert-scroll-btn {
+        display: none;
+    }
+    
+    .certificates-wrapper {
+        gap: 0;
+    }
+    
+    .certificates-container {
+        padding: 20px 0;
+    }
+}
+
+/* Certificates Container */
 .certificates-container {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     gap: 25px;
     padding: 30px 20px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) #f1f1f1;
+    width: 100%;
+    scroll-snap-type: x mandatory;
 }
 
+/* Custom scrollbar for certificates */
 .certificates-container::-webkit-scrollbar {
-    display: none;
+    height: 8px;
+}
+
+.certificates-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.certificates-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.certificates-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
 }
 
 .certificate-card {
@@ -634,6 +714,7 @@ nav.scrolled {
     transition: transform 0.5s, box-shadow 0.5s;
     text-align: center;
     padding-bottom: 20px;
+    scroll-snap-align: start;
 }
 
 .certificate-card:hover {
@@ -658,6 +739,71 @@ nav.scrolled {
     font-size: 18px;
     color: var(--primary-color);
     transition: color 0.3s;
+}
+
+/* Placeholder for certificates without images */
+.cert-placeholder {
+    width: 100%;
+    height: 240px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+/* Certificate modal styles */
+.certificate-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.certificate-modal.active {
+    display: flex;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+}
+
+.modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
 }
 
 /* Enhanced Contact Section */
