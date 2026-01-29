@@ -13,7 +13,7 @@ document.querySelectorAll(".nav-links a").forEach(n => n.addEventListener("click
 }));
 
 // Navbar scroll effect
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     const nav = document.querySelector('nav');
     if (window.scrollY > 50) {
         nav.classList.add('scrolled');
@@ -25,11 +25,11 @@ window.addEventListener('scroll', function() {
 // Scroll animation for sections
 function checkScroll() {
     const sections = document.querySelectorAll('section');
-    
+
     sections.forEach(section => {
         const sectionTop = section.getBoundingClientRect().top;
         const triggerBottom = window.innerHeight * 0.8;
-        
+
         if (sectionTop < triggerBottom) {
             section.classList.add('visible');
         }
@@ -59,7 +59,7 @@ backToTop.addEventListener('click', (e) => {
 // Function to animate skill bars
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
-    
+
     skillBars.forEach(bar => {
         const width = bar.getAttribute('data-width');
         bar.style.width = width + '%';
@@ -83,3 +83,128 @@ if (contactForm) {
         contactForm.reset();
     });
 }
+
+// Project section scroll functionality
+function initProjectScroll() {
+    const projectsContainer = document.querySelector('.projects-container');
+    const leftScrollBtn = document.querySelector('.left-scroll');
+    const rightScrollBtn = document.querySelector('.right-scroll');
+    
+    if (!projectsContainer || !leftScrollBtn || !rightScrollBtn) return;
+    
+    const scrollAmount = 300;
+    
+    // Right scroll button
+    rightScrollBtn.addEventListener('click', () => {
+        projectsContainer.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Left scroll button
+    leftScrollBtn.addEventListener('click', () => {
+        projectsContainer.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Show/hide buttons based on scroll position
+    function updateScrollButtons() {
+        const scrollLeft = projectsContainer.scrollLeft;
+        const scrollWidth = projectsContainer.scrollWidth;
+        const clientWidth = projectsContainer.clientWidth;
+        
+        // Show/hide left button
+        if (scrollLeft > 0) {
+            leftScrollBtn.style.opacity = '0.8';
+            leftScrollBtn.style.pointerEvents = 'auto';
+        } else {
+            leftScrollBtn.style.opacity = '0.3';
+            leftScrollBtn.style.pointerEvents = 'none';
+        }
+        
+        // Show/hide right button
+        if (scrollLeft < scrollWidth - clientWidth - 10) {
+            rightScrollBtn.style.opacity = '0.8';
+            rightScrollBtn.style.pointerEvents = 'auto';
+        } else {
+            rightScrollBtn.style.opacity = '0.3';
+            rightScrollBtn.style.pointerEvents = 'none';
+        }
+    }
+    
+    // Update buttons on scroll
+    projectsContainer.addEventListener('scroll', updateScrollButtons);
+    
+    // Update buttons on resize
+    window.addEventListener('resize', updateScrollButtons);
+    
+    // Initial update
+    updateScrollButtons();
+}
+
+// Add keyboard navigation for projects
+function addKeyboardNavigation() {
+    const projectsContainer = document.querySelector('.projects-container');
+    
+    if (!projectsContainer) return;
+    
+    projectsContainer.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            projectsContainer.scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            });
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            projectsContainer.scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            });
+        }
+    });
+    
+    // Make project cards focusable
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.setAttribute('tabindex', '0');
+    });
+}
+
+// Initialize everything when page loads
+window.addEventListener('load', () => {
+    checkScroll();
+    animateSkillBars();
+    initProjectScroll();
+    addKeyboardNavigation();
+    
+    // Add touch/swipe support for mobile
+    addTouchSupport();
+});
+
+// Add touch support for mobile swipe
+function addTouchSupport() {
+    const projectsContainer = document.querySelector('.projects-container');
+    
+    if (!projectsContainer) return;
+    
+    let startX = 0;
+    let scrollLeft = 0;
+    
+    projectsContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX - projectsContainer.offsetLeft;
+        scrollLeft = projectsContainer.scrollLeft;
+    });
+    
+    projectsContainer.addEventListener('touchmove', (e) => {
+        if (!e.touches.length) return;
+        const x = e.touches[0].pageX - projectsContainer.offsetLeft;
+        const walk = (x - startX) * 2; // Scroll speed multiplier
+        projectsContainer.scrollLeft = scrollLeft - walk;
+    });
+}
+
+// Keep your existing event listeners
+window.addEventListener('scroll', checkScroll);
