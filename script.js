@@ -441,7 +441,7 @@ function initVisitorCounter() {
 
 // Smooth ease-out count-up animation
 function animateCount(el, target) {
-    const dur = 200;
+    const dur = 20;
     const t0 = performance.now();
     (function tick(now) {
         const p = Math.min((now - t0) / dur, 1);
