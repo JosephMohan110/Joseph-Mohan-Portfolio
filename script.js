@@ -89,11 +89,11 @@ function initProjectScroll() {
     const projectsContainer = document.querySelector('.projects-container');
     const leftScrollBtn = document.querySelector('.left-scroll');
     const rightScrollBtn = document.querySelector('.right-scroll');
-    
+
     if (!projectsContainer || !leftScrollBtn || !rightScrollBtn) return;
-    
+
     const scrollAmount = 300;
-    
+
     // Right scroll button
     rightScrollBtn.addEventListener('click', () => {
         projectsContainer.scrollBy({
@@ -101,7 +101,7 @@ function initProjectScroll() {
             behavior: 'smooth'
         });
     });
-    
+
     // Left scroll button
     leftScrollBtn.addEventListener('click', () => {
         projectsContainer.scrollBy({
@@ -109,13 +109,13 @@ function initProjectScroll() {
             behavior: 'smooth'
         });
     });
-    
+
     // Show/hide buttons based on scroll position
     function updateScrollButtons() {
         const scrollLeft = projectsContainer.scrollLeft;
         const scrollWidth = projectsContainer.scrollWidth;
         const clientWidth = projectsContainer.clientWidth;
-        
+
         // Show/hide left button
         if (scrollLeft > 0) {
             leftScrollBtn.style.opacity = '0.8';
@@ -124,7 +124,7 @@ function initProjectScroll() {
             leftScrollBtn.style.opacity = '0.3';
             leftScrollBtn.style.pointerEvents = 'none';
         }
-        
+
         // Show/hide right button
         if (scrollLeft < scrollWidth - clientWidth - 10) {
             rightScrollBtn.style.opacity = '0.8';
@@ -134,13 +134,13 @@ function initProjectScroll() {
             rightScrollBtn.style.pointerEvents = 'none';
         }
     }
-    
+
     // Update buttons on scroll
     projectsContainer.addEventListener('scroll', updateScrollButtons);
-    
+
     // Update buttons on resize
     window.addEventListener('resize', updateScrollButtons);
-    
+
     // Initial update
     updateScrollButtons();
 }
@@ -148,9 +148,9 @@ function initProjectScroll() {
 // Add keyboard navigation for projects
 function addKeyboardNavigation() {
     const projectsContainer = document.querySelector('.projects-container');
-    
+
     if (!projectsContainer) return;
-    
+
     projectsContainer.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -166,7 +166,7 @@ function addKeyboardNavigation() {
             });
         }
     });
-    
+
     // Make project cards focusable
     document.querySelectorAll('.project-card').forEach(card => {
         card.setAttribute('tabindex', '0');
@@ -179,7 +179,7 @@ window.addEventListener('load', () => {
     animateSkillBars();
     initProjectScroll();
     addKeyboardNavigation();
-    
+
     // Add touch/swipe support for mobile
     addTouchSupport();
 });
@@ -187,17 +187,17 @@ window.addEventListener('load', () => {
 // Add touch support for mobile swipe
 function addTouchSupport() {
     const projectsContainer = document.querySelector('.projects-container');
-    
+
     if (!projectsContainer) return;
-    
+
     let startX = 0;
     let scrollLeft = 0;
-    
+
     projectsContainer.addEventListener('touchstart', (e) => {
         startX = e.touches[0].pageX - projectsContainer.offsetLeft;
         scrollLeft = projectsContainer.scrollLeft;
     });
-    
+
     projectsContainer.addEventListener('touchmove', (e) => {
         if (!e.touches.length) return;
         const x = e.touches[0].pageX - projectsContainer.offsetLeft;
@@ -217,11 +217,11 @@ function initCertificatesScroll() {
     const certsContainer = document.querySelector('.certificates-container');
     const leftCertBtn = document.querySelector('.left-scroll-cert');
     const rightCertBtn = document.querySelector('.right-scroll-cert');
-    
+
     if (!certsContainer || !leftCertBtn || !rightCertBtn) return;
-    
+
     const scrollAmount = 300;
-    
+
     // Right scroll button for certificates
     rightCertBtn.addEventListener('click', () => {
         certsContainer.scrollBy({
@@ -229,7 +229,7 @@ function initCertificatesScroll() {
             behavior: 'smooth'
         });
     });
-    
+
     // Left scroll button for certificates
     leftCertBtn.addEventListener('click', () => {
         certsContainer.scrollBy({
@@ -237,13 +237,13 @@ function initCertificatesScroll() {
             behavior: 'smooth'
         });
     });
-    
+
     // Show/hide buttons based on scroll position for certificates
     function updateCertScrollButtons() {
         const scrollLeft = certsContainer.scrollLeft;
         const scrollWidth = certsContainer.scrollWidth;
         const clientWidth = certsContainer.clientWidth;
-        
+
         // Show/hide left button
         if (scrollLeft > 0) {
             leftCertBtn.style.opacity = '0.8';
@@ -252,7 +252,7 @@ function initCertificatesScroll() {
             leftCertBtn.style.opacity = '0.3';
             leftCertBtn.style.pointerEvents = 'none';
         }
-        
+
         // Show/hide right button
         if (scrollLeft < scrollWidth - clientWidth - 10) {
             rightCertBtn.style.opacity = '0.8';
@@ -262,13 +262,13 @@ function initCertificatesScroll() {
             rightCertBtn.style.pointerEvents = 'none';
         }
     }
-    
+
     // Update buttons on scroll for certificates
     certsContainer.addEventListener('scroll', updateCertScrollButtons);
-    
+
     // Update buttons on resize for certificates
     window.addEventListener('resize', updateCertScrollButtons);
-    
+
     // Initial update for certificates
     updateCertScrollButtons();
 }
@@ -285,10 +285,10 @@ function initCertificateModal() {
         </div>
     `;
     document.body.appendChild(modal);
-    
+
     const modalImg = modal.querySelector('img');
     const closeModal = modal.querySelector('.close-modal');
-    
+
     // Open modal on certificate image click
     certificateCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -298,13 +298,13 @@ function initCertificateModal() {
             document.body.style.overflow = 'hidden';
         });
     });
-    
+
     // Close modal
     closeModal.addEventListener('click', () => {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
     });
-    
+
     // Close modal on ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
@@ -312,7 +312,7 @@ function initCertificateModal() {
             document.body.style.overflow = 'auto';
         }
     });
-    
+
     // Close modal on background click
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -325,9 +325,9 @@ function initCertificateModal() {
 // Add keyboard navigation for certificates
 function addCertificatesKeyboardNavigation() {
     const certsContainer = document.querySelector('.certificates-container');
-    
+
     if (!certsContainer) return;
-    
+
     certsContainer.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -343,7 +343,7 @@ function addCertificatesKeyboardNavigation() {
             });
         }
     });
-    
+
     // Make certificate cards focusable
     document.querySelectorAll('.certificate-card').forEach(card => {
         card.setAttribute('tabindex', '0');
@@ -353,17 +353,17 @@ function addCertificatesKeyboardNavigation() {
 // Add touch support for certificates swipe
 function addCertificatesTouchSupport() {
     const certsContainer = document.querySelector('.certificates-container');
-    
+
     if (!certsContainer) return;
-    
+
     let startX = 0;
     let scrollLeft = 0;
-    
+
     certsContainer.addEventListener('touchstart', (e) => {
         startX = e.touches[0].pageX - certsContainer.offsetLeft;
         scrollLeft = certsContainer.scrollLeft;
     });
-    
+
     certsContainer.addEventListener('touchmove', (e) => {
         if (!e.touches.length) return;
         const x = e.touches[0].pageX - certsContainer.offsetLeft;
@@ -379,17 +379,19 @@ window.addEventListener('load', () => {
     initProjectScroll();
     addKeyboardNavigation();
     addTouchSupport();
-    
+
     // Initialize certificates section
     initCertificatesScroll();
     initCertificateModal();
     addCertificatesKeyboardNavigation();
     addCertificatesTouchSupport();
-    
+
+    // Initialize visitor counter
+    initVisitorCounter();
+
     // Update all scroll buttons on resize
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
-            // Re-initialize scroll buttons visibility
             setTimeout(() => {
                 if (typeof updateScrollButtons === 'function') updateScrollButtons();
                 if (typeof updateCertScrollButtons === 'function') updateCertScrollButtons();
@@ -397,3 +399,57 @@ window.addEventListener('load', () => {
         }
     });
 });
+
+// =============================================
+// VISITOR COUNTER — No backend required!
+// Uses countapi.xyz: free JSON counter API.
+// Every page load hits the API, which increments
+// the count permanently on their servers and
+// returns the current total as JSON.
+// =============================================
+function initVisitorCounter() {
+    const countEl = document.getElementById('visitorCount');
+    if (!countEl) return;
+
+    // The key is unique to your portfolio
+    // namespace: your GitHub username, key: project identifier
+    const apiUrl = 'https://api.countapi.xyz/hit/josephmohan110.github.io/joseph-mohan-portfolio-visits';
+
+    fetch(apiUrl)
+        .then(res => {
+            if (!res.ok) throw new Error('API error');
+            return res.json();
+        })
+        .then(data => {
+            const finalCount = data.value || 0;
+            animateCountUp(countEl, finalCount);
+        })
+        .catch(() => {
+            // Fallback: show a friendly message if API is unreachable
+            countEl.textContent = '---';
+            countEl.style.fontSize = '2.5rem';
+        });
+}
+
+// Smooth count-up animation from 0 to target
+function animateCountUp(el, target) {
+    const duration = 2000; // ms
+    const start = performance.now();
+    const startVal = 0;
+
+    function update(timestamp) {
+        const elapsed = timestamp - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease-out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(startVal + (target - startVal) * eased);
+        el.textContent = current.toLocaleString(); // formats 1234 as "1,234"
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            el.textContent = target.toLocaleString();
+        }
+    }
+
+    requestAnimationFrame(update);
+}
