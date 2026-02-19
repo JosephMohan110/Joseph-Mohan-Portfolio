@@ -337,16 +337,17 @@
                 <div class="visitor-card">
                     <p class="visitor-label">TOTAL VISITORS</p>
 
-                    <!-- Badge image: works everywhere, no fetch, increments on load -->
-                    <div id="visitorDisplay">
-                        <img id="visitorBadge"
-                            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fjosephmohan110.github.io%2FJoseph-Mohan-Portfolio%2F&count_bg=%236C63FF&title_bg=%232D2B55&icon=eye.svg&icon_color=%23FFFFFF&title=Visitors&edge_flat=false"
-                            alt="Visitor Count" class="visitor-badge-large" />
+                    <!-- Counter display — filled by JS -->
+                    <div id="visitorDisplay" class="visitor-number-area">
+                        <div class="visitor-spinner" id="visitorSpinner">
+                            <div class="spinner-ring"></div>
+                        </div>
+                        <span class="visitor-count-number" id="visitorCount" style="display:none;">0</span>
                     </div>
 
                     <p class="visitor-tagline">
                         <i class="fas fa-circle-dot"></i>
-                        Live — updates on every page open
+                        Live &mdash; updates on every page open
                     </p>
                 </div>
 
@@ -372,6 +373,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- Enhanced Footer -->
     <footer>

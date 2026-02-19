@@ -395,4 +395,58 @@ window.addEventListener('load', () => {
             }, 100);
         }
     });
+
+    // Visitor counter
+    initVisitorCounter();
 });
+
+// =============================================
+//  VISITOR COUNTER — works on GitHub Pages
+//  Local file:// → shows info message
+//  Live https:// → fetches real count + animates
+// =============================================
+function initVisitorCounter() {
+    const spinner = document.getElementById('visitorSpinner');
+    const countEl = document.getElementById('visitorCount');
+    const display = document.getElementById('visitorDisplay');
+    if (!spinner || !countEl || !display) return;
+
+    // Running locally — API calls blocked on file://
+    if (window.location.protocol === 'file:') {
+        display.innerHTML = `
+            <div class="visitor-local-msg">
+                <i class="fas fa-cloud-upload-alt"></i>
+                Push to GitHub Pages to<br>see the live visitor count
+            </div>`;
+        return;
+    }
+
+    // Live HTTPS site — hit API to increment + show count
+    fetch('https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up')
+        .then(res => { if (!res.ok) throw new Error(); return res.json(); })
+        .then(data => {
+            const total = data.count || 0;
+            spinner.style.display = 'none';
+            countEl.style.display = 'inline-block';
+            animateCount(countEl, total);
+        })
+        .catch(() => {
+            display.innerHTML = `
+                <div class="visitor-local-msg">
+                    <i class="fas fa-wifi"></i>
+                    Could not load count.<br>Check your connection.
+                </div>`;
+        });
+}
+
+// Smooth ease-out count-up animation
+function animateCount(el, target) {
+    const dur = 2000;
+    const t0 = performance.now();
+    (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toLocaleString();
+    })(t0);
+}

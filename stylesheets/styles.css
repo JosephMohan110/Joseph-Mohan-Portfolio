@@ -1359,27 +1359,74 @@ footer::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 90px;
 }
 
-.visitor-badge-large {
-    height: 60px;
-    border-radius: 12px;
-    filter: drop-shadow(0 0 20px rgba(108, 99, 255, 0.7));
-    transition: all 0.3s ease;
-    animation: badgeGlow 3s ease-in-out infinite;
+/* Loading Spinner */
+.visitor-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@keyframes badgeGlow {
+.spinner-ring {
+    width: 65px;
+    height: 65px;
+    border: 5px solid rgba(255, 255, 255, 0.08);
+    border-top-color: var(--primary-color);
+    border-right-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Big animated number */
+.visitor-count-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 55%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 22px rgba(108, 99, 255, 0.8));
+    animation: numberGlow 3s ease-in-out infinite;
+}
+
+@keyframes numberGlow {
 
     0%,
     100% {
-        filter: drop-shadow(0 0 20px rgba(108, 99, 255, 0.7));
+        filter: drop-shadow(0 0 22px rgba(108, 99, 255, 0.8));
     }
 
     50% {
-        filter: drop-shadow(0 0 35px rgba(54, 209, 220, 0.9));
+        filter: drop-shadow(0 0 42px rgba(54, 209, 220, 1.0));
     }
 }
+
+/* Local-mode message */
+.visitor-local-msg {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+    line-height: 1.7;
+}
+
+.visitor-local-msg i {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
 
 .visitor-tagline {
     font-size: 1rem;
