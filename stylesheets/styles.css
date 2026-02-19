@@ -1326,38 +1326,50 @@ footer::before {
     }
 }
 
-/* Big Counter Display */
-.visitor-big-counter {
+/* Visitor Card */
+.visitor-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 40px 60px;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.visitor-card:hover {
+    background: rgba(108, 99, 255, 0.12);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 40px rgba(108, 99, 255, 0.25);
+    transform: translateY(-4px);
+}
+
+.visitor-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 4px;
+}
+
+#visitorDisplay {
     display: flex;
     align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
-.visitor-count-box {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-}
-
-.visitor-count-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 5rem;
-    font-weight: 700;
-    line-height: 1;
-    background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 60%, var(--primary-color) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.visitor-badge-large {
+    height: 60px;
+    border-radius: 12px;
     filter: drop-shadow(0 0 20px rgba(108, 99, 255, 0.7));
-    animation: numberGlow 3s ease-in-out infinite;
-    min-width: 180px;
-    display: inline-block;
+    transition: all 0.3s ease;
+    animation: badgeGlow 3s ease-in-out infinite;
 }
 
-@keyframes numberGlow {
+@keyframes badgeGlow {
 
     0%,
     100% {
@@ -1367,15 +1379,6 @@ footer::before {
     50% {
         filter: drop-shadow(0 0 35px rgba(54, 209, 220, 0.9));
     }
-}
-
-.visitor-count-label {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 3px;
-    text-transform: uppercase;
 }
 
 .visitor-tagline {

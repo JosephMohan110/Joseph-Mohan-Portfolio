@@ -328,22 +328,27 @@
             <h2 class="section-title">People Who Visited</h2>
             <div class="visitor-counter-wrapper">
 
-                <!-- Big Counter Display -->
-                <div class="visitor-big-counter">
-                    <div class="visitor-icon-ring">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="visitor-count-box">
-                        <span class="visitor-count-number" id="visitorCount">--</span>
-                        <span class="visitor-count-label">Total Visitors</span>
-                    </div>
+                <!-- Globe Icon -->
+                <div class="visitor-icon-ring">
+                    <i class="fas fa-globe"></i>
                 </div>
 
-                <!-- Sub Info -->
-                <p class="visitor-tagline">
-                    <i class="fas fa-chart-line"></i>
-                    Every time someone opens this portfolio — the count goes up live!
-                </p>
+                <!-- Counter Card -->
+                <div class="visitor-card">
+                    <p class="visitor-label">TOTAL VISITORS</p>
+
+                    <!-- Badge image: works everywhere, no fetch, increments on load -->
+                    <div id="visitorDisplay">
+                        <img id="visitorBadge"
+                            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fjosephmohan110.github.io%2FJoseph-Mohan-Portfolio%2F&count_bg=%236C63FF&title_bg=%232D2B55&icon=eye.svg&icon_color=%23FFFFFF&title=Visitors&edge_flat=false"
+                            alt="Visitor Count" class="visitor-badge-large" />
+                    </div>
+
+                    <p class="visitor-tagline">
+                        <i class="fas fa-circle-dot"></i>
+                        Live — updates on every page open
+                    </p>
+                </div>
 
                 <!-- 3 Stat Cards -->
                 <div class="visitor-stats">
@@ -355,7 +360,7 @@
                     <div class="vstat">
                         <i class="fas fa-globe-asia"></i>
                         <span>Global</span>
-                        <small>From LinkedIn, CV & more</small>
+                        <small>From LinkedIn, CV &amp; more</small>
                     </div>
                     <div class="vstat">
                         <i class="fas fa-sync-alt"></i>

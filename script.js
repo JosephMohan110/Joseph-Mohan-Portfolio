@@ -386,9 +386,6 @@ window.addEventListener('load', () => {
     addCertificatesKeyboardNavigation();
     addCertificatesTouchSupport();
 
-    // Initialize visitor counter
-    initVisitorCounter();
-
     // Update all scroll buttons on resize
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
@@ -399,65 +396,3 @@ window.addEventListener('load', () => {
         }
     });
 });
-
-// =============================================
-// VISITOR COUNTER — No backend required!
-// Primary: counterapi.dev (free JSON counter API)
-// Fallback: hits.seeyoufarm.com badge image
-// Every page load = +1 count, stored permanently.
-// =============================================
-function initVisitorCounter() {
-    const countEl = document.getElementById('visitorCount');
-    if (!countEl) return;
-
-    // counterapi.dev — free, no signup, CORS-enabled
-    // namespace + key are unique to your portfolio
-    const apiUrl = 'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up';
-
-    fetch(apiUrl)
-        .then(res => {
-            if (!res.ok) throw new Error('API error');
-            return res.json();
-        })
-        .then(data => {
-            // counterapi.dev returns { count: 42 }
-            const finalCount = data.count || 0;
-            animateCountUp(countEl, finalCount);
-        })
-        .catch(() => {
-            // Fallback: show hits.seeyoufarm badge image instead
-            const wrapper = countEl.closest('.visitor-count-box');
-            if (wrapper) {
-                wrapper.innerHTML = `
-                    <img
-                        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fjosephmohan110.github.io%2FJoseph-Mohan-Portfolio%2F&count_bg=%236C63FF&title_bg=%232D2B55&icon=eye.svg&icon_color=%23FFFFFF&title=Visitors&edge_flat=true"
-                        alt="Visitor Count"
-                        style="height:40px;border-radius:8px;filter:drop-shadow(0 4px 14px rgba(108,99,255,0.6));"
-                    />
-                    <span style="font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-top:6px;">Total Visitors</span>
-                `;
-            }
-        });
-}
-
-// Smooth count-up animation from 0 to target
-function animateCountUp(el, target) {
-    const duration = 2000; // ms
-    const start = performance.now();
-
-    function update(timestamp) {
-        const elapsed = timestamp - start;
-        const progress = Math.min(elapsed / duration, 1);
-        // Ease-out cubic for smooth deceleration
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(target * eased);
-        el.textContent = current.toLocaleString(); // e.g. 1,247
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            el.textContent = target.toLocaleString();
-        }
-    }
-
-    requestAnimationFrame(update);
-}
