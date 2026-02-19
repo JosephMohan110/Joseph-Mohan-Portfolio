@@ -594,6 +594,8 @@ nav.scrolled {
 
 .project-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-content h3 {
@@ -603,7 +605,22 @@ nav.scrolled {
 .project-content p {
     color: var(--text-light);
     margin-bottom: 15px;
+    flex: 1;
 }
+
+.project-content .btn {
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.project-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
 
 /* Certificates Section */
 #certificates {
