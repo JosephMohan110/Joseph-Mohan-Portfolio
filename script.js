@@ -74,15 +74,16 @@ window.addEventListener('load', () => {
 
 window.addEventListener('scroll', checkScroll);
 
-// Form submission
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Thank you for your message! I will get back to you soon.');
-        contactForm.reset();
-    });
-}
+// Form submission is now handled via FormSubmit.co in the HTML form attributes.
+// The code below is removed to allow standard form submission to occur.
+// const contactForm = document.querySelector('.contact-form form');
+// if (contactForm) {
+//     contactForm.addEventListener('submit', (e) => {
+//         e.preventDefault();
+//         alert('Thank you for your message! I will get back to you soon.');
+//         contactForm.reset();
+//     });
+// }
 
 // Project section scroll functionality
 function initProjectScroll() {
