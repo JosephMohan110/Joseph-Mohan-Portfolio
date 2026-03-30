@@ -12,50 +12,69 @@ document.querySelectorAll(".nav-links a").forEach(n => n.addEventListener("click
     navLinks.classList.remove("active");
 }));
 
-// Navbar scroll effect
-window.addEventListener('scroll', function () {
-    const nav = document.querySelector('nav');
-    if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
-    }
-});
-
-// Scroll animation for sections
-function checkScroll() {
-    const sections = document.querySelectorAll('section');
-
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        const triggerBottom = window.innerHeight * 0.8;
-
-        if (sectionTop < triggerBottom) {
-            section.classList.add('visible');
-        }
-    });
-}
-
-// Back to top button
+// Optimized Scroll Handlers for high performance
+const nav = document.querySelector('nav');
 const backToTop = document.getElementById('backToTop');
+let isScrolling = false;
 
 window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        backToTop.classList.add('active');
-    } else {
-        backToTop.classList.remove('active');
+    if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            
+            // Navbar effect
+            if (nav) {
+                if (scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }
+            
+            // Back to top button
+            if (backToTop) {
+                if (scrollY > 300) {
+                    backToTop.classList.add('active');
+                } else {
+                    backToTop.classList.remove('active');
+                }
+            }
+            
+            isScrolling = false;
+        });
+        isScrolling = true;
     }
+}, { passive: true }); // passive: true improves scrolling performance
+
+// Section Animations with IntersectionObserver (Much faster than scroll events)
+const observerOptions = {
+    threshold: 0.15,
+    rootMargin: "0px 0px -50px 0px"
+};
+
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Stop observing once it's visible
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('section').forEach(section => {
+    sectionObserver.observe(section);
 });
 
 // Smooth scroll for back to top
-backToTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+if (backToTop) {
+    backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
-});
-
+}
 // Function to animate skill bars
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
@@ -68,11 +87,8 @@ function animateSkillBars() {
 
 // Initialize animations
 window.addEventListener('load', () => {
-    checkScroll();
     animateSkillBars();
 });
-
-window.addEventListener('scroll', checkScroll);
 
 // Form submission via FormSubmit.co using AJAX (No page reload)
 const contactForm = document.querySelector('.contact-form form');
@@ -241,7 +257,6 @@ function addTouchSupport() {
 }
 
 // Keep your existing event listeners
-window.addEventListener('scroll', checkScroll);
 
 
 
@@ -408,7 +423,6 @@ function addCertificatesTouchSupport() {
 
 // Update the initialization function
 window.addEventListener('load', () => {
-    checkScroll();
     animateSkillBars();
     initProjectScroll();
     addKeyboardNavigation();
