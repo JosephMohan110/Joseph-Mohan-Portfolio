@@ -74,16 +74,49 @@ window.addEventListener('load', () => {
 
 window.addEventListener('scroll', checkScroll);
 
-// Form submission is now handled via FormSubmit.co in the HTML form attributes.
-// The code below is removed to allow standard form submission to occur.
-// const contactForm = document.querySelector('.contact-form form');
-// if (contactForm) {
-//     contactForm.addEventListener('submit', (e) => {
-//         e.preventDefault();
-//         alert('Thank you for your message! I will get back to you soon.');
-//         contactForm.reset();
-//     });
-// }
+// Form submission via FormSubmit.co using AJAX (No page reload)
+const contactForm = document.querySelector('.contact-form form');
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent page reload
+
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+
+        // Get form data
+        const formData = new FormData(contactForm);
+        
+        // FormSubmit AJAX URL
+        const actionUrl = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
+
+        fetch(actionUrl, {
+            method: "POST",
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success === "true" || data.success === true) {
+                alert('Thank you for your message! It has been successfully sent.');
+                contactForm.reset();
+            } else {
+                alert('Message sent! *Important*: If this is your first time, please check your email inbox (josephmchulliyil@gmail.com) for an activation link from FormSubmit to enable the contact form.');
+                contactForm.reset();
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Something went wrong. Please make sure you are online or check your email for the activation link.');
+        })
+        .finally(() => {
+            submitBtn.textContent = originalText;
+        });
+    });
+}
 
 // Project section scroll functionality
 function initProjectScroll() {
