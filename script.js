@@ -46,6 +46,24 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true }); // passive: true improves scrolling performance
 
+function checkScroll() {
+    const scrollY = window.scrollY;
+    if (nav) {
+        if (scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    }
+    if (backToTop) {
+        if (scrollY > 300) {
+            backToTop.classList.add('active');
+        } else {
+            backToTop.classList.remove('active');
+        }
+    }
+}
+
 // Section Animations with IntersectionObserver (Much faster than scroll events)
 const observerOptions = {
     threshold: 0.15,
