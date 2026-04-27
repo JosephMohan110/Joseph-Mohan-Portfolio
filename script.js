@@ -487,20 +487,36 @@ function initVisitorCounter() {
         return;
     }
 
-    const counterServices = [
-        { url: 'https://visitor-badge.laobi.icu/badge?page_id=josephmohan110.portfolio', type: 'visitorbadge' },
-        { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' }
-    ];
+    // First try the image-based visitor badge API because it increments on every browser load
+    const badgeUrl = 'https://visitor-badge.laobi.icu/badge?page_id=josephmohan110.portfolio';
+    const badgeImage = new Image();
+    badgeImage.alt = 'Visitor count';
+    badgeImage.className = 'visitor-badge';
 
-    requestVisitorCount(counterServices, 0, spinner, countEl, display);
+    badgeImage.onload = () => {
+        spinner.style.display = 'none';
+        display.innerHTML = '';
+        display.appendChild(badgeImage);
+    };
+
+    badgeImage.onerror = () => {
+        const counterServices = [
+            { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' }
+        ];
+
+        requestVisitorCount(counterServices, 0, spinner, countEl, display);
+    };
+
+    badgeImage.src = badgeUrl;
 }
 
 function requestVisitorCount(services, index, spinner, countEl, display) {
     if (index >= services.length) {
-        // Fallback: show a minimum count instead of 0
-        spinner.style.display = 'none';
-        countEl.style.display = 'inline-block';
-        animateCount(countEl, 1); // Minimum fallback count
+        display.innerHTML = `
+            <div class="visitor-local-msg">
+                <i class="fas fa-wifi"></i>
+                Could not load count.<br>Please try again later.
+            </div>`;
         return;
     }
 
@@ -508,19 +524,10 @@ function requestVisitorCount(services, index, spinner, countEl, display) {
     fetch(service.url)
         .then(res => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.text();
+            return res.json();
         })
         .then(data => {
-            let total = 0;
-            if (service.type === 'visitorbadge') {
-                // Extract count from SVG response
-                const countMatch = data.match(/<text[^>]*>(\d+)<\/text>/);
-                total = countMatch ? parseInt(countMatch[1]) : 0;
-            } else if (service.type === 'countapi') {
-                const jsonData = JSON.parse(data);
-                total = jsonData.value || 0;
-            }
-
+            const total = data.value || 0;
             spinner.style.display = 'none';
             countEl.style.display = 'inline-block';
             animateCount(countEl, total);
