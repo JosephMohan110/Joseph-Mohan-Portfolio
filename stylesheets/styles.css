@@ -1425,6 +1425,21 @@ footer::before {
     }
 }
 
+/* Visitor Badge Image */
+.visitor-badge {
+    width: 200px;
+    height: auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.visitor-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(108, 99, 255, 0.5);
+}
+
 /* Local-mode message */
 .visitor-local-msg {
     font-family: 'Poppins', sans-serif;
