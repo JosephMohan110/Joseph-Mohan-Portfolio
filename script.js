@@ -469,21 +469,37 @@ function initVisitorCounter() {
         return;
     }
 
-    // Live HTTPS site — hit API to increment + show count
-    fetch('https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up')
-        .then(res => { if (!res.ok) throw new Error(); return res.json(); })
+    const counterUrls = [
+        'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up',
+        'https://api.countapi.xyz/hit/josephmohan110/portfolio'
+    ];
+
+    requestVisitorCount(counterUrls, 0, spinner, countEl, display);
+}
+
+function requestVisitorCount(urls, index, spinner, countEl, display) {
+    if (index >= urls.length) {
+        display.innerHTML = `
+            <div class="visitor-local-msg">
+                <i class="fas fa-wifi"></i>
+                Could not load count.<br>Please try again later.
+            </div>`;
+        return;
+    }
+
+    fetch(urls[index])
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+        })
         .then(data => {
-            const total = data.count || 0;
+            const total = data.count || data.value || 0;
             spinner.style.display = 'none';
             countEl.style.display = 'inline-block';
             animateCount(countEl, total);
         })
         .catch(() => {
-            display.innerHTML = `
-                <div class="visitor-local-msg">
-                    <i class="fas fa-wifi"></i>
-                    Could not load count.<br>Check your connection.
-                </div>`;
+            requestVisitorCount(urls, index + 1, spinner, countEl, display);
         });
 }
 
