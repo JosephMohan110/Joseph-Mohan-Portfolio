@@ -487,16 +487,17 @@ function initVisitorCounter() {
         return;
     }
 
-    const counterUrls = [
-        'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up',
-        'https://api.countapi.xyz/hit/josephmohan110/portfolio'
+    const counterServices = [
+        { url: 'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up', type: 'counterapi' },
+        { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' },
+        { url: 'https://api.github.com/repos/JosephMohan110/Joseph-Mohan-Portfolio', type: 'github' }
     ];
 
-    requestVisitorCount(counterUrls, 0, spinner, countEl, display);
+    requestVisitorCount(counterServices, 0, spinner, countEl, display);
 }
 
-function requestVisitorCount(urls, index, spinner, countEl, display) {
-    if (index >= urls.length) {
+function requestVisitorCount(services, index, spinner, countEl, display) {
+    if (index >= services.length) {
         display.innerHTML = `
             <div class="visitor-local-msg">
                 <i class="fas fa-wifi"></i>
@@ -505,19 +506,38 @@ function requestVisitorCount(urls, index, spinner, countEl, display) {
         return;
     }
 
-    fetch(urls[index])
+    const service = services[index];
+    fetch(service.url, {
+        headers: { 'Accept': 'application/json' }
+    })
         .then(res => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             return res.json();
         })
         .then(data => {
-            const total = data.count || data.value || 0;
+            let total = 0;
+            if (service.type === 'counterapi') {
+                total = data.count || 0;
+            } else if (service.type === 'countapi') {
+                total = data.value || 0;
+            } else if (service.type === 'github') {
+                total = data.stargazers_count || 0;
+            }
+
             spinner.style.display = 'none';
             countEl.style.display = 'inline-block';
             animateCount(countEl, total);
+
+            if (service.type === 'github') {
+                const tagline = document.querySelector('.visitor-tagline');
+                if (tagline) {
+                    tagline.innerHTML = '<i class="fas fa-star"></i> Using GitHub stars as fallback when the live counter is unavailable';
+                }
+            }
         })
-        .catch(() => {
-            requestVisitorCount(urls, index + 1, spinner, countEl, display);
+        .catch(error => {
+            console.warn('Visitor counter failed:', service.url, error);
+            requestVisitorCount(services, index + 1, spinner, countEl, display);
         });
 }
 
