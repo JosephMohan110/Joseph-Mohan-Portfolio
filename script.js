@@ -488,7 +488,7 @@ function initVisitorCounter() {
     }
 
     const counterServices = [
-        { url: 'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up', type: 'counterapi' },
+        { url: 'https://visitor-badge.laobi.icu/badge?page_id=josephmohan110.portfolio', type: 'visitorbadge' },
         { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' }
     ];
 
@@ -497,28 +497,28 @@ function initVisitorCounter() {
 
 function requestVisitorCount(services, index, spinner, countEl, display) {
     if (index >= services.length) {
-        display.innerHTML = `
-            <div class="visitor-local-msg">
-                <i class="fas fa-wifi"></i>
-                Could not load count.<br>Please try again later.
-            </div>`;
+        // Fallback: show a minimum count instead of 0
+        spinner.style.display = 'none';
+        countEl.style.display = 'inline-block';
+        animateCount(countEl, 1); // Minimum fallback count
         return;
     }
 
     const service = services[index];
-    fetch(service.url, {
-        headers: { 'Accept': 'application/json' }
-    })
+    fetch(service.url)
         .then(res => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.json();
+            return res.text();
         })
         .then(data => {
             let total = 0;
-            if (service.type === 'counterapi') {
-                total = data.count || 0;
+            if (service.type === 'visitorbadge') {
+                // Extract count from SVG response
+                const countMatch = data.match(/<text[^>]*>(\d+)<\/text>/);
+                total = countMatch ? parseInt(countMatch[1]) : 0;
             } else if (service.type === 'countapi') {
-                total = data.value || 0;
+                const jsonData = JSON.parse(data);
+                total = jsonData.value || 0;
             }
 
             spinner.style.display = 'none';
