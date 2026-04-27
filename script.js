@@ -489,8 +489,7 @@ function initVisitorCounter() {
 
     const counterServices = [
         { url: 'https://api.counterapi.dev/v1/josephmohan110/joseph-mohan-portfolio/up', type: 'counterapi' },
-        { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' },
-        { url: 'https://api.github.com/repos/JosephMohan110/Joseph-Mohan-Portfolio', type: 'github' }
+        { url: 'https://api.countapi.xyz/hit/josephmohan110/portfolio', type: 'countapi' }
     ];
 
     requestVisitorCount(counterServices, 0, spinner, countEl, display);
@@ -520,20 +519,11 @@ function requestVisitorCount(services, index, spinner, countEl, display) {
                 total = data.count || 0;
             } else if (service.type === 'countapi') {
                 total = data.value || 0;
-            } else if (service.type === 'github') {
-                total = data.stargazers_count || 0;
             }
 
             spinner.style.display = 'none';
             countEl.style.display = 'inline-block';
             animateCount(countEl, total);
-
-            if (service.type === 'github') {
-                const tagline = document.querySelector('.visitor-tagline');
-                if (tagline) {
-                    tagline.innerHTML = '<i class="fas fa-star"></i> Using GitHub stars as fallback when the live counter is unavailable';
-                }
-            }
         })
         .catch(error => {
             console.warn('Visitor counter failed:', service.url, error);
